@@ -1,0 +1,62 @@
+import random 
+
+positions = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+winningPositions = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [3, 5, 8], [0, 4, 8], [2, 4, 6]]
+
+print("TIC TAC TOE".center(80))
+print("---------------------------------------".center(80))
+
+userChoice = input("What do you choose-(0/X): ")
+cpuChoice = 'X' if userChoice == '0' else '0'
+
+print(f'''
+{positions[0]} | {positions[1]} | {positions[2]}
+---------
+{positions[3]} | {positions[4]} | {positions[5]}
+---------
+{positions[6]} | {positions[7]} | {positions[8]}
+''')
+
+isUserTurn = True
+userTurnsPlayed = 0
+GameOver = False
+
+while not GameOver and userTurnsPlayed < 5:
+    if isUserTurn:
+        userInput = int(input("Enter the position: "))
+        
+        if userInput in positions:
+            positions[userInput-1] = userChoice
+            userTurnsPlayed += 1            
+            isUserTurn = False
+        else: 
+            print("Position already in use..")
+            continue
+    else: 
+        cpuInput = random.choice(positions)
+        if cpuInput == "X" or cpuInput == "0":
+            continue
+        print("CPU input is ", cpuInput)
+        positions[cpuInput-1] = cpuChoice
+        isUserTurn = True
+
+    print(f'''
+    {positions[0]} | {positions[1]} | {positions[2]}
+    ---------
+    {positions[3]} | {positions[4]} | {positions[5]}
+    ---------
+    {positions[6]} | {positions[7]} | {positions[8]}
+    ''')
+    
+    if userTurnsPlayed >= 3:
+        for position in winningPositions:
+            if positions[position[0]] == positions[position[1]] and positions[position[2]] == positions[position[0]]:
+                GameOver = True
+                print("CPU wins") if isUserTurn else print("User wins")
+                break
+            
+if not GameOver:
+    print("Game Draw")
+
+
+
